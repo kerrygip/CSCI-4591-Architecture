@@ -1,0 +1,288 @@
+THE COMPUTER REVOLUTION
+
+- Underpinned by Moore's Law
+	- the number of transisters in a circuit doubles every two years
+- Makes novel applications feasable
+- Computers are pervasive
+
+
+CLASSES OF COMPUTERS
+- Personal Computers
+	- designed for use by an individual, incorporating graphics display, keyboard and mouse
+- Server Computers 
+	- used for running larger programs for multiple users simultaneously, accessed via network
+- Supercomputers
+	- highest performance cost, configured as servers and run 10k+
+- Embedded Computers
+	- computer inside another device used for running one predetermined application or software 
+	- have less memory
+
+
+	- Kilobyte(KB) - 10^3	- Binary : kikibyte(KiB)  - 2^10
+	- Megabyte(MB) - 10^6	- Binary : mebibyte(MiB)  - 2^20
+	- Gigabyte(GB) - 10^9	- Binary : gibibyte(GiB)  - 2^30
+	- Terabyte(TB) - 10^12	- Binary : tebibyte(TiB)  - 2^40
+	- Petabyte(PB) - 10^15	- Binary : pebibyte(PiB)  - 2^50
+	- Exabyte(EB) - 10^18	- Binary : exbibyte(EiB)  - 2^60
+	- Zettabyte(ZB) - 10^21	- Binary : zebibyte(ZiB)  - 2^70
+	- Yottabyte(YB) - 10^24	- Binary : yobibyte(YiB)  - 2^80
+
+POST PC ERA
+- Tablet and PC sales have been steadily growing from 2007-2012
+- Smart phone sales greatly increased post 2010
+- Personal mobile device (PMD) are smart phones or tablets
+	- Uses a touch screen, GPS, Apps, WiFi
+- Cloud Computing has taken over conventional servers, 
+	- Relies on giant datacenters (Warehouse Scale Computers (WSC))
+	- Amazon and Google build them and let companies rent out portions (SaaS)
+	- i.e (Google Docs, DropBox, Salesforce anything that can be accessed online)
+	- IaaS - infrastructure as a service(AWS< Azure, Google Compute Engine) 
+	- FaaS - function as a service ( AWS Lambda, Google cloud function, Azure Functions) 
+	- PaaS - platform as a service(Heroku, Apache, Stratos, Openshift) 
+
+UNDERSTANDING PERFORMANCE
+- Algorithm/Code:
+	- Search - Linear(O(n)) , Binary (O log2 n)
+	- Sort - O(n^2) 
+- Programming language, compiler, architecture
+	- Language : Assembly, C, C++
+	- Compiler: Can be regular or optimized compiler based on hardware
+	- Architecture: CISC vs RISC
+		- CISC - Complex instruction set computer (Intel, AMD)
+		- RISC - Reduced instruction set computer (ARM, Mips)
+- Processor and memory sytem
+	- Processor (Speed)
+	- Memory system (Amount Speed)
+- I/O system
+	- Storage(HDD or SSD or NvmeSSD)
+
+
+8 GREAT IDEAS
+- Design for Moore's Law
+	- integrated circuits double every 18-24 months
+	- Need to design where technology will be when design finishes, not when it starts
+- Use Abstraction to simplify design
+	- Both computer architects and programmers have to invent techniques to make themselves more productive
+		- Otherwise, design time would lengthen as resources grew
+	- Characterize the design at different levels of representation
+		- Low level details are hidden to offer a simpler model at higher levels 
+- Make the common case fast
+	- Enhances performance better than optimizing the rare case since it is more simpler
+	- Implies that you know what common case is, through careful experimentation and measurement
+- Performance via parallism
+	- Get more performance by computing operations in parallel
+- Performance via pipelining
+	- Move items up a chain instead of individual processes occuring
+- Performance via prediction
+	- Faster on average to guess and start working rather than wait for the answer
+		- Under assumption that recovery is not too expensive
+- Hierarchy of memories
+	- More memory, the better, however it is pretty expensive
+	- Hierarchy of memories:
+		- Allow fastest, smallest and most expensive memory at top 
+		- Allow slowest, largest and cheapest per bit at bottom
+	- Caches give the illusion that main memory is as fast as top of heirarchy
+	
+- Dependability via redundancy
+	- Include redundant components that can take over when a failure occurs and helps detect failures
+	
+	
+BELOW YOUR PROGRAM
+- Application software
+	- Written in high level language 
+	- Compiler translates high level language to machine code
+	- High Level Language (C++, Python) ->(Compiles) Assembly ->(Assembler) Binary language
+		- Compilers translate the program into instructions that the hardware can execute
+		- Assemblers translates a version of instruction into binary
+
+- System software
+	- OS : Service code
+	- Handling I/O
+	- Managing memory and storage
+	- Scheduling tasks and sharing resources 
+- Hardware
+	- Processor, Memory, I/O controllers 
+
+
+LEVELS OF PROGRAM CODE
+- Harward representaion
+- Assembly Language
+- High Level Language (C++, Python)
+
+COMPONENTS OF A COMPUTER
+- Divided into two parts
+	- Processor : gets instruction and data from memory
+		- CPU is the heart of the computer, control unit, datapath, ALU
+		- Datapath: Performs operations on data
+		- Control: Sequeneces datapath, memory, etc
+			- Sends signals that determine operation of datapath, memory, input and output
+		- Cache Memory: Small fast, SRAM memory for immediate access to data
+	- Memory - I/O, storage
+		- Input writes data to memory
+		- Output reads data from memory
+
+ABSTRACTIONS
+- Abstraction helps deal with complexity
+	- Hides lower level detail
+- Instruction set architecture (ISA)
+	- Hardware/software interface
+- Application binary interface
+	- ISA plus system software interface
+- Implementation
+	- Detail underlying and interface
+
+
+
+TECHNOLOGY TRENDS
+- Electronic technology continues to evolve
+	- Increased capacity and performance
+	- Reduced cost
+
+SEMICONDUCTOR TECHNOLOGY
+- Silicon - natural semiconductor
+- Add materials to transform properties
+	- Conductors, insulators, switch 
+
+
+RESPONSE TIME AND THROUGHPUT
+- Response time : time between start and completion of a task or execution time
+- Throughput : the total amount of work done in a given time
+
+RELATIVE PERFORMANCE
+- Define Performance = 1/Execution time
+- X is n time faster than Y
+
+Performance(x) / Performance(y) = Execution time(y)/ Execution time(x) = n
+
+
+MEASURING EXECUTION TIME
+- Elapsed time
+	- Total response time
+		- Processing, I/O, OS Overhead, Idle time
+	- Determines system performance
+- CPU time
+	- Time spent processing a given job
+	- Discounts I/O time, other jobs shares
+	- Comprises under CPU time and system CPU time
+- Different programs are affected differently by CPU and system performance
+
+
+
+CPU CLOCKING
+- Operation of digital hardware governed by a constant rate clock
+- Clock period(cycle time) = 1/ Clock freqency(clock speed)
+	- Ex. Clock time = 2GHz (clock/cycle)
+		- Giga = 10^9
+		- Cycle time = 1/ 2x10^9 = 0.25 nanoseconds
+
+
+CPU TIME
+- CPU TIME = CPU clock cycles x Clock Cycle Time = CPU CLOCK CYCLES/ CLOCK RATE
+- Performance imrpoved by:
+	- Reducing number of clock cycles
+	- Increasing clock rate
+	- Hardware Designer must often trade off clock rate against cycle count
+
+
+INSTRUCTION COUNT AND CPI
+- Clock clycles = Instruction Count x Clock Cycles per Instruction (CPI)
+- CPU TIME = Instruction Count x CPI X Clock cycle time = (Instruction Count x CPI)/ Clock Rate
+- Instruction count for a program is determined by program, ISA and Compiler
+- Average cycles per instruction:
+	- Determined by CPI Hardware
+	- Different Instructions have different CPI
+	- Average CPI affected by Instruction Mix
+- TIME = SECONDS/PROGRAM = INSTRUCTIONS/PROGRAM x CLOCK CYCLES/INSTRUCTION x SECONDS/ CLOCK CYCLE
+
+	Components			Units
+	CPU execution time for a program = Seconds for the program units
+	Instruction count =  Instructions executed for the program units
+	Clock cycles per instruction (CPI) =  Average number of clock cycles per instruction units
+	Clock cycle time = Seconds per clock cycle units
+
+EX
+- RISC - takes one cycle
+	- Add - one cycle
+	- Sub - one cycle
+	- Branch - multiple cycles
+
+- CISC - most takes 2 cycles
+
+CLOCK CYCLES PER INSTRUCTION(CPI) PERFORMANCE
+- CPI varies by instruction mix
+	- Instruction mix is a measure of dynamic frequency of instructions across one or many programs
+- Both instruction count and CPI must be compared, even if clock rates are equal 
+- Performance Measures:
+	- Algorithms: Affect Instruction count and possible CPI
+		- Algorithm determins program instructions exectuion and processor instruction executions
+		- Can affect CPI by favoring slower or faster instruction
+			- ex. More divides = higher CPI
+	- Programming Language: Affects Instruction count and CPI
+		- Statements are translated to processor instruction which determine instruction count
+		- Some lanauges may affect CPI because of it's features
+			- ex. Java needs heavy support for data abstraction, more indirect calls, more CPI
+	- Compiler: Affects Instruction count and CPI
+		- Efficiency of compiler affects both instruction count and average cycles per instruction
+		- Compiler determines translation of language instruction to computer instruction
+		- Compilers role can be complex and affect CPI in many ways
+	- Instruction Set Architecture: Affects Instruction count, Clock Rate and CPI
+		- Affects instructions needed for a function
+		- Affects the cost in cycles of each instruction
+		- Affects overall clock rate of processor 
+
+CPI IN MORE DETAIL
+- If different instruction classes take different numbers of cycles
+	Clock cycles = sumE(n, i=1)( CPI(i) x Instruction Count(i))
+- Weighted Average CPI
+	CPI = Clock Cycles/ Instruction Count = sumE(n, i=1)( CPI(i) x Instruction Count(i)/Instruction Count)
+
+
+CPI EXAMPLE
+CLASS			A	B	C	Total Instructions
+CPI FOR CLASS		1	2	3	
+IC in sequence 1	2	1	2	5
+IC in sequence 2	4	1	1	6
+
+- There are instruction class A, B and C
+- Instruction class(IC) A takes 1 cycle
+- Instruction Class(IC) B takes 2 cycles
+- Instruction class(IC) C takes 3 cycles
+- for Sequence 1, 2 instructions type A(1), 1 instruction type B(2) and 2 instructions type C(3)
+	- Average CPI = ((1x2) + (2x1) + (3x2)) / 5  = 2.0
+- for Sequence 2, 4 instructions type A(1), 1 instruction type B(2) and 1 instructions type C(3)
+	- Average CPI = ((1x4) + (2x1) + (3x1)) / 6  = 1.5
+- Multiply sequence by class
+
+
+MULTIPROCESSORS
+- Multicore microprossors
+	- More than one processor per chip
+- Requires explicityly parallel programming
+	- Compare with instruction level parallelism
+		- Hardwre executes multiple instructions at once
+		- Hidden from the programmer
+	- Hard to do
+		- Programming for performance
+		- Load balancing
+		- Optimizing communication and synchronization 
+
+SPEC CPU BENCHMARK
+- Programs used to measure performance 
+	- Supposedly typical of actual workload
+- Standard Performance Evaluation Corp (SPEC)
+	- Develops benchmarks for CPU,I/O, web
+- SPEC 2006
+
+
+
+
+
+
+
+
+
+
+
+
+
+

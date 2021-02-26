@@ -1,0 +1,452 @@
+ARM PROCESSOR
+- Looking at instruction set
+	- How does it affect computer architecture
+		- How does it apply to machine code
+
+
+INSTRUCTION SET ARCHITECTURE
+- What is it and how does it affect architecture?
+	- High level language (C/Python) -> Assembly language -> Machine language(0s and 1s)
+		- 0s and 1s are well defined, it has a pattern 
+		- Why do we care about machine  code?
+			- CPU has a control unit
+				- Controls everything
+				- ALU, Registers, Memory, I/O
+		- Decodes machine code and generates control signals 
+
+
+INTRODUCTION
+- Two different types of architecture
+	- CISC - Complex Instruction Set Computer
+	- RISC - Reduced Instruction Set Computer
+- MIPS
+	- Created by Next by Steve Jobs
+	- MIPS is an elegant example of the instruction sets designed since the 1980s
+
+- ARM was developed by Acorn Computers Ltd of England (1983-1985)
+	- ARM (Acorn Risc Machine)
+	- Converted to Advanced RISC Machine (ARM) in 1990
+	- Why ARM? :
+		- It is everywhere
+			- Apple
+			- Qualcomm
+			- Raspberry Pi
+			- IoT (Arduino/ ARM Cortex)
+	- ARM does not make processors, it licenses its design and other companies can modify it 
+- Supports:
+	- 64 and 32 bit signed and unsigned words (2s complement)
+	- 16 bit signed and unsigned half words
+	- 8 bit signed and unsigned bytes
+
+
+ARM's REGISTERS
+- 16 user accessible registers
+	- Count down
+- r15 contains the PC
+	- Used as program counter/PC or r15
+- r14 us used to save subroutine return address
+	- Also called link register
+	- Can be referred to as lr or r14
+- r13 is used as stack register
+	- But any register, r0-r13 can be used as stack register
+	- can be referred to as sp or r13
+- r1-r12 are used as general purpose
+	- Local variables, specific purpose, I/O, interrupts, status registers
+- Normally r0 is priority 0, normally just 0
+
+
+CPSR (CURRENT PROGRAM STATUS REGISTER)
+	- Same as CCR - Condition Code Register (32 bit in size) - > Is really status Register
+	- Bit 31 - N Flag - Negative 
+		- Result that set the condition code had a 1 in most significant bit
+	- Bit 30 - Z Flag - Zero
+		- result if the condition code is 0
+	- Bit 29 - C Flag - Carry
+		- the condition code had a carry out of the most significant bit or had to borrow into 
+			significant bit
+	- Bit 28 - V Flag - Overflow
+		- result that set the condition code overflowed
+
+	- Have a User Mode and Manager Mode(OS mode)
+
+
+ARM INSTRUCTION
+- Classes of instruction
+	- Data Processing
+	- Sequence Control
+	- Data Movement
+	- Green code - all sets of instructions we can use in ARM
+
+
+- General Form:
+	- OpCode, Destination (Dest), Source1(left), Source2 (right)
+	- [Dest] <- [S1] OP [S2]
+	- Opcode specifies operation
+
+- Operand of Source can also be reversed
+	- Rop (Reverse Opcode) Dest, S1(right), S2(left)
+	- [Dest] <- [S2] OP [S1]
+
+- The source operand are not treated symmetrically
+	- In some instructions, 2nd operand can't be an immediate value
+	
+	Ex:
+	- ADD Rd, Op1, Op2 <- Rd has stored data, operand1, operand2
+		- [Rd] <- [Op1] + [Op2]  (adding registers)
+		- Add R1, R2, R3 = [R1] <-[R2] + [R3]
+		- Add R1, R2, 5 = [R1] <- [R2] + 5
+		- Add R1, R1, 1 = [R1] <- [R1] + 1
+	- ADC Rd, Op1, Op2
+		- [Rd] <- [Op1] + [Op2] + C 
+	- SUB Rd, Op1, Op2 
+		-[Rd] <- [Op1] - [Op2] 	
+	- SBC Rd, Op1, Op2 
+		-[Rd] <- [Op1] - [Op2] 	+ C -1
+	- RSB Rd, Op1, Op2 
+		-[Rd] <- [Op2] - [Op1] 	
+	- RSC Rd, Op1, Op2 
+		-[Rd] <- [Op2] - [Op1] 	+ C - 1
+	
+	- Add suffix "S" to the instruction to update Current Program Status Register(CPSR)
+	
+		- ex. ADD Rd, Op1, Op2
+			- [Rd] <- [Op1] + [Op2] 
+			- Will not change any of the flags
+		- ADDS Rd, Op1, Op2
+			- [Rd] <- [Op1] + [Op2] 
+			- Same Result
+			- Both will ADD Op1 and Op2 to store results in Rd
+			- ADD will not update the CPSR
+			- ADDS will update CPSR (change Flag)
+
+	- Multiply(MUL) instruction
+		- Destination can't be the same as first source operand register
+			- MUL RO, RO, R1 is Illegal
+		- The second operand cannot be an immediate value
+		- Result is truncated to 32 bites
+
+		- MUL Rd, Op1, Op2
+			- [Rd] <- [Op1] * [Op2]
+
+
+
+ARM DATA PROCESSING INSTRUCTIONS
+- Logical Instructions:
+	- Test (TST):
+		- Perform bit by bit AND operation on operands and set condition code
+			* condition code is N, Z,C,V FLAGS
+	- Test Equivalent (TEQ):
+		- Perform bit by bit EOR operation on operands and set condition code
+	- AND
+	- EOR (exclusive Or)
+	- BIC (Bit Clear)
+	- Clear bit number(operand2) in Rn and store results in Rd
+	- Does not update the V flag
+- Compare
+	- Takes two operands
+	- Compare(cmp) - subtract operation and update flags
+	- Compare Negative(cmn) - Add operation and update flags
+		- ==
+		= < or >
+	- Result of subtraction and addition is ignored. Does not store results
+	- Sets Z, C and N flags
+- Conditional Execution
+	- Each instruction can be conditionally executed
+	- Add condition suffix to instruction
+	- InstructionSuffix:
+		- AddEQ(add if Z = 1)
+		- AddNE(add if Z =0)
+	
+		- ex. cmp R1, R2 (if these are not equal, then skip AddEq)
+		- AddEQ R3, R4, R5
+		
+		- If (R1 == R2) {R3 = R4 + R5}
+- Sequence Control
+	- B{condition} - Branch if condition is true
+	- Ex. 
+		Mov R0 #20
+		Next: ...
+			...
+				SubS R0, R0, #1
+				BNE Next
+- Data Movement Instructions
+	- Move(Mov):
+		- Move content of source register to destination register
+	- Move Not(Mvn):
+		- Move logical compliment(1's complement) of source to destination
+	- Source can be an immeidate data
+	- Can be executed conditionally
+
+- Accessing Memory
+	- Load(Ldr):
+		- Copy data from given memory location
+		- Uses "address register indirect" or indexed addressing
+		- Can be executed conditionally
+		- Any of the 16 registers can be used as an address register
+	- Store(str):
+		- Copy data to given memory location
+		- Second operand is destination
+
+
+
+INSTRUCTIONS: LANGUAGE OF THE COMPUTER
+
+- Instruction Set
+	- Instruction set is a collection of instructors for a computer
+		- Machine code or instructions are executed by computer
+		- Instructions are endocded in binary (machine doe)
+	- Different computers have different instruction sets
+		-  Many aspects in common though
+	- Early computers had very simple instruction sets
+		- Simplified implementation
+	- Many modern computesr also have simple instruction sets 
+
+- LEGv8 Instruction Set
+	- Developed by ARM Corp
+	- Typical of many modern ISAs
+		- See LEGv8 Reference Data(Green) card
+	- Similar ISAs have a large share of embedded core market
+		- Applications in consumer electronics, network/storage equipment, cameras 
+	- Encoded as 32 bit instruction words
+		- Small number of formats encoding operation code, register numbers
+		- Regularity 
+
+- LEGv8 R - Format instructions
+	- Instruction fields
+		- opcode: operation code
+		- Rm: The 2nd register source operand
+		- Shamt: shift amount
+		- Rn: The first register source operand
+		- Rd: The register destination operand
+
+- Arithmetic Operations
+	- Add and subtract 3 operands
+		- 2 sources, 1 destination
+		- add a,b,c = a <- b+ c
+	- All arithmetic operations have this form
+	- Design Principle 1:
+		- Simplicity favors regularity
+		- Regularity makes implementation simpler
+		- Simplicity enables higher performance at lower cost
+- Register Operands
+	- Arithmetic instructions use registrer operands
+	- LEGv8 has a 32 x64 bit register file
+		- Use for frequently accessed data(local variables)	
+		- 64 bit data is called "doubleword"
+		- 32 bit data is called "word"
+	- Design Principle 2: 
+		- Smaller is Faster
+		- Main memory: Millions of locations
+		- Registers are faster as compared to main memory
+- Memory Operands
+	- Main Memory used for composite data
+		- Arrays, structures, dynamic data
+	- To apply arithmetic operations
+		- Load values from memory into registers
+		- Store result from register to memory
+	- Memory is byte adressed
+		- Each address identifies as an 8-bit bytes
+	- LEGv8
+		- Little Endian
+			- Little/Big Endian: Which is most and least significant bit
+		- Does not require words to be aligned in memory 
+		- Unlike other ISAs 
+
+- Registers vs Memory
+	- Registers are faster to access than memory
+	- Operating on memory data requires loads and stores 
+		- More instructions to be executed
+	- Compiler must use registesr for variables as much as possible
+		- Only spill to memory for less frequently used memory
+		- Register optimization is important
+
+
+- Immediate Operands
+	- Constant data specificed in an instruction
+- Make the common case fast
+	- Small constants are common
+	- Immediate operand avoids a load instruction 
+
+
+
+
+LEGv8 I FORMAT INSTRUCTIONS
+- Instruction Fields
+	- opcode : Operation code (Add, Sub)
+		- contains an i at the end to determine that it's an immediate value
+	- ALU immediate value (Rm, R3)
+	- Rn : First register source operand (Rn, R2)
+	- Rd : Register Destination operand (R1)
+	
+		ex Addi R1, R2, R3 (R3 is an immediate value)
+		- [R1] <- [R2] + 9
+
+	- Design Principles 3: 
+		- Good design demands good complromises
+			- Different formats complicate decoding but allow 32 bit instructions uniformly
+			- Keep formats as similar as possible
+	- opcode 	immediate	Rn	Rd
+	- 10 bits	12 bits		5	5 bits
+
+LEGv8 R- FORMAT INSTRUCTIONS
+	- opcode: operation code
+	- Rm : second register source operand
+	- shamt : shift amount
+	- Rn : First register source operand
+	- Rd : Register destination operand
+	- opcode 	Rm	shamt	Rn	Rd
+	- 11 bits	5	6	5	5 bits
+
+LEGv8 D- FORMAT INSTRUCTIONS
+	
+	- opcode: operation code [11 bits]
+	- address: offset Value
+	- op2 : second opcode
+	- Rn : Register with base address
+	- Rt : souce/destination register
+	- Memory address = [Rn] + address
+	- Load instruction : take memory and put into register
+	- Store instruction : take data from register and put it into memory
+	- opcode 	address		op2	Rn	Rt
+	- 11 bits	9 bits		2 bits	5	5 bits
+	- Ldur (load register) R9, [R22, #64]
+		- Memory address = ([R22] + 64) 
+		- [R9] <- [[R22]+64]
+			- R22 is base address -> Rn
+			- 64 is offset -> address
+			- R9 -> Rt
+		- opcode 		address		op2	Rn	Rt
+		- 1111 1000 010		0 0100 0000	00	10 110	0 1001
+		- HEX: F84402C9
+
+	- stur R13[R9, #32]
+		- going from register to memory
+		- memory location is ([R9] + 32) and store it into <-[R13]
+		- R9 - 16
+		- R13 =45
+		- base address is 16, so we add 16+32 = 48, so we go to memory location of 48
+			and store whatever is in R13 and store it there
+		R13 = Rt
+		[R9] = Rn
+		#32] = Address
+		- opcode 		address		op2	Rn	Rt
+		-1111 1000 000		000100000		01001	01101
+
+LEGv8 B FORMAT INSTRUCITONS
+	- Unconditional branch
+	- opcode: operation code
+	- address : offset value
+	- opcode 	address	
+	- 6 bits	26 bits	
+	- B		145 
+	- 000101	
+
+LEGv8 CB FORMAT INSTRUCITONS
+	- Conditional branch
+	- opcode: operation code
+	- address : offset value
+	- Rt/ Condition code: register to check or condition code
+	- Opcode	address			Rt/condition code
+	- 8 bits	19 bits			5 bits
+	- EQ condition code = 00000 when z flag = 1
+	- NE condition code = 00001 when z flag = 0
+
+	- CB.Z x19, label - condition branch on 0. So this is when x19 ==0
+		- update program counter to whatever is at program counter
+	- Opcode	address			Rt/condition code
+	- 1011 0100 	Label			10011 (x19)
+
+	- B.EQ Label - zflag
+	- Opcode	address			Rt/condition code
+
+IM FORMAT EXAMPLES (can be read as IW) - read as Immediate Wide
+	- opcode: operation code
+	- Immediate value
+	- Rd: Register destiation operand
+	- opcode		Mov immediate		Rd
+	- 11 bits		16 bits			5 bits
+	
+	- MOVK R19(Rd), #45(immediate). 
+
+
+SHIFT OPERATIONS/Shift Operations
+- shamt : how many positions to shift
+- Logical shift left
+	- shift left and fill with 0 bits
+- Logical shift right
+	- shift right and fill with 0 bits 
+-opcode		Rm		shamt		Rn		Rd(destination)
+-11 bits	5 bits		6 bits		5 bits		6 bits
+
+- lsl R12 #3
+	- move the code over by 3 and fill in the rest to 0, anything that goes outside of the bit space 	
+		gets thrown out and has a flag thrown on it.
+	- When you move it over, it is the same as multipying it as (shift^n)
+- & operation
+	- 10101110 +
+	- 0101110
+	= 00001110
+
+- lsl R10, R22, #3
+- R10 <- R22 << 3 (left shift by 3, stored in R10)
+-opcode		Rm		shamt		Rn(R22)		Rd(R10)
+	
+
+
+DECODING MACHINE CODE
+- 8	b    0	  f	0    0	  3	3 -> binary
+= 1000 1011 0000 1111	0000 0000 0011	0011
+- Opcode      |Rm    |shamt    |Rn   |Rd
+= Add	      |
+
+PITFALLS
+-Sequential words are not at sequential addresses
+	- increment by 4, not 1
+
+CONCLUSION
+- DESIGN PRINCIPLES:
+	- Simplicity favors regularity
+	- Smaller is faster
+	- Good design demands good compromises
+- Make the common case fast 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
