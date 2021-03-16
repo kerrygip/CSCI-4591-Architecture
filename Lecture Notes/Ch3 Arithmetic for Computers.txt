@@ -1,0 +1,259 @@
+ARITHMETIC FOR COMPUTERS
+
++ve and -ve = positive and negative
+
+-Operations on integers
+	- Addition and subtraction
+	- Multiplication and division
+	- Dealing with overflow
+- Floating point real numbers
+	- Representation and operations 
+- Integer Addition
+	- Overflow if result out of range
+	- Adding +ve and -be operands, no overflow
+	- Adding two +ve operands
+		- Overflow if result sign is 1
+	- Adding two -ve operands
+		- Overflow if result sign is 0
+	
+	- 0+0 = 0
+	- 0+1 and 1+0 = 1
+	- 1 + 1 = 0 with 1 carry that goes to next bit
+	
+	000111 = 7
+	000110 = 6
+	----------
+	001101 = 13
+
+- Integer Subtraction
+	- Add negation of second operand
+	- 0000	0000	0000	0111	+7
+	- 1111	1111	1111	1010	-6
+	-----------------------------------	
+	- 0000	0000	0000	0001	1
+	
+	- Overflow if result is out of range
+	- Subtracting two +ve or two -ve operands have no overflow
+	- Subtracting positive from -ve opeand 
+		- Overflow is result sign is 0
+	- Subtracting -ve from +ve operand
+		- Overflow is result sign is 1
+	- Negative number is overflow
+
+DEALING WITH OVERFLOW
+- C language ignores overflow
+- Ada/Fortran Requires raising an exception
+	- on overflow, it invokes exception handler
+
+
+ARITHMETIC FOR MULTIMEDIA
+- Graphics and media processing operates on vectors of 8 bit and 16 bit data
+	- Use 64 adder with paritioned carry chain
+		- Operate on 8x8, 4x16 or 2x32 bit vectors
+	- SIMD(Single instruction multiple data)
+- Saturating operations
+	- On overflow, result is largest representable value
+	- Example: clipping in audio, saturation in video 
+
+- Multiplication
+	- Easy to implement with an adder
+	- ex:
+		- Process 1: Add multiplicand, multiplier times
+					8    x    9
+		- Process 2: Add and shift multiplicand
+			- Works for binary numbers only 
+	- Treat as normal multiplicaiton
+
+		1000
+	       x1001
+	       -----
+		1000
+	       0000x	
+	      0000xx
+	     1000xxx
+	--------------
+	     1001000	
+
+- Multiplier Hardware
+	- Performs step in parallel:
+		add/shift
+	- One per cycle per partial product addition
+		- fine if frequency of multiplication is low
+	FASTER MULTIPLIER
+		- uses multiple adders
+		- Cost/performance vs time tradeoff. 
+			- Cost goes up and performance goes up, time goes down
+		- Can be pipelined
+			- Several multiplication performed in parallel
+- Division
+	- Treat as normal division
+	- Quotient, remainder is still involved 
+	- 1001010/1000 = 1001 R10
+	
+	DIVIDER HARDWARE
+	- Performs step in parallel:
+		- add/shift
+	- One per cycle per partial product addition
+		- fine if frequency of division is low
+	- Faster Division
+		- Cant use parallel hardware as in multiplier
+			- Subtraction is conditional on sign of remainder
+		- Faster dividers generate multiple quotient bits per step
+			- still requires multiple steps
+
+
+FLOATING POINT NUMBERS
+- We need to represent
+	- numbers with fractions: 3.1416
+	- Very large integers
+		- 16 bit word size -> 72,234,567
+		- 32 bit word -> 5, 123,456,789
+		- Range vs precision
+			- ex. Fixed word size
+				- Trade off between range and precision
+			- 
+	- Types floats and doubles in C/Java
+
+Nomarlization:
+- A decimal is normalized if it is in the form 
+	- Scientific notation 
+	- xxxx 10^y
+	- xxxx is called the mantissa
+	- y is the exponent
+	- needs a nonzero leading number 
+
+
+- Binary is normalized if it is in the form:
+	- 1.xxxx 2^y
+	- 1.xxxx is called mantissa/significand, numbers after decimal is called fraction
+	- y is the exponent 
+
+Floating Point Standard
+- Defined by IEEE std 754 in 1985
+- Developed in response to divergence of representations
+	- Portability issues for scientific code
+- Now almost universally adopted
+- Two representations
+	- Single precision (32 bit) - > Float
+	- Double precision (64 bit) - > Double 
+
+IEEE 754 FLOATING POINT STANDARD
+Single precision (float in C) - 32 bit numbers
+		- 1 sign bit
+		- 8 bit exponent
+		- 12 bit fraction
+
+	- Where x = (-1)^2 x (1+fraction) x 2^(exponent - bias)
+	- 1. Fraction form	
+		- 1.0 <= |significant| < 2.0
+	- use sign values (does not use 2's complement format)
+	- Exponent bias : 127
+Range
+ 	- Exponent 0000 0000 and 1111 1111 are reserved
+	- Smallest value
+		- Exponent = 0000 0001 -> 1-127 = -126
+		- Fraction 0000 0000 -> significand = 1.0
+		- +/- 1.0 x 2^-126
+
+	- largest value
+		- Exponent = 1111 1110 -> 254-127 = 127
+		- Fraction 1111 1111 -> significand = 2.0
+		- +/- 2.0 x 2^127
+		- Compare with 2 147 489 647 = 2x10^9
+			- The largest integer that can be stored 
+	- underflow with number line 
+		- 
+	
+Double Precision (double in c) - 64 bit numbers
+	- 1 sign bit
+	- 11 bit exponent
+	- 52 bit fraction
+	- Where x = (-1)^s x (1+fraction) x 2^(exponent - bias)
+	- 1. Fraction form 
+		- 1.0 <= |significant| < 2.0
+	- Use sign + value (Does not use 2's complement format)
+	- Exponent bias 1023
+
+Range
+ 	- Exponent 0000 0000 and 1111 1111 are reserved
+	- Smallest value
+		- Exponent = 000 0000 0001 -> 1-1023 = -1022
+		- Fraction 0000 0000 -> significand = 1.0
+		- +/- 1.0 x 2x^-1022
+	- Largest value
+		- Exponent = 111 1111 1110 -> 2046 - 1023 = 1023
+		- Fraction 1111 1111 -> significand = 1.111 111 = 2.0
+		- +/- 2.0 x 2^1023
+		- Compare with 9 223 372 036 854 775 807 
+
+Floating Point Precision
+	- Relative precision
+	- All fraction bits are significant
+	- Single : approx 2^-23 
+		- Equivalent to 23 x log10 (2) = 23 x 0.3 = 6 decimal digits of precision (whole numbers)
+	- Double : approx 2^-52
+		- Equivalent t0 52 x 10g 10(2) = 52 x 0.3 = 16 decimal points of precision
+	- If larger than the digits of precision, then the extra number is lost 
+		
+Relative precision
+	- All fraction bits are significant
+	
+
+
+Ex.  Represent 0.75
+-.75 = -> 0.11 -> 1.1 x 2^-1
+s = 1
+
+exp -> -1 + 127 -> 126 -> 0111 1110
+	-1 + 1023 - > 1022 -> 0111 1111 110
+
+    8			 23
+1  |0111 1110   	|1 0000 0000 
+1  |0111 1111 1110      |1 00000000
+	11			52 
+
+
+What number is represented by the single precision float 
+1 1000 0001 0100 00000...= -1.01 x 2^2
+
+
+INFINITIES AND NaNS
+	- Ways to use fractions 
+	- Exponent = 111 11 1, Fraction = 00000
+		+/- infinity
+	- Exponent = 1111, Fraction =/ 000
+		- Not a Number (NaN)
+		- Indicates illegal or undefined result 
+
+Floating Point Addition/Subtraction
+	- Consider a 4 digit decimal example
+	- 1. Aligh 
+
+
+FP ADDER HARDWARE
+	- Much more complex than integer adder
+	- Doing it in one clock cycle would take too long
+		- Much longer than integer operations
+		- Slower clock would penalize all instructions
+	- FP Adder usually takes several cycles 
+
+
+FLOATING POINT MULTIPLICATION
+	- Consider a 4 digit decimal example
+	- 1. Add exponents
+		- For biased exponents, subtract bias from sum 
+
+
+ACCURATE ARITHMETIC
+	- IEEE Std 754 specifies additional rounding control
+		- Extra Bits of Precision (Guard, round, sticky)
+		- Choice of rounding modes
+		- Allows programmers to fine tune 
+
+
+
+
+
+
+
+
