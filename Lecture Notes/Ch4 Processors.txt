@@ -1,0 +1,81 @@
+BACKGROUND: INSTRUCTION CYCLE
+
+	- An instruciton can be divided into two parts:
+		- Fetch instruction: Read instruction
+		- Execute instruction: feedback loop and goes to fetch instructions when done execute
+
+	- Locate and obtain instruction from memory
+	- Determine required actions
+	- Locate and obtain operand data
+	- Computer result value
+	- Deposit results in memory for later use
+	- Determine successor instruction
+
+	- Fetch instruction:
+		- PC -> Instruction memory
+	- Read Register: 
+		- Register numbers -> register file
+	- Depending on instruction class (Add, sub)
+		- Use ALU to calculate
+			- Arithmetic result
+			- Memory address for load/store
+			- Branch target address
+	- Access data memory for load/store
+	- PC <- target address or PC + 4
+
+	- LDUR/STUR - MEMORY instructions
+	- ADD/SUB/AND/ORR - Arithmetic/Logic instructions
+	- CBZ/B - Program Control instructions 
+
+MULTIPLEXERS
+	- Used to control flow of signal
+		- like stop signs at a traffic stop 
+	- Cant join wires together, must use multiplexers 
+
+VON NEUMANN ARCHITECURE	
+	- One memory unit
+		- Contains data and instructions 
+	- Used in CISC ( Complex instruction Set Computer)
+
+HARVARD ARCHITECTURE
+	- Data memory 
+	- Instruction memory
+	- CPU contains : ALU, Control unit and I/O
+		- two memory busses 
+	- Used in RISC (Reduce Instruction Set Computer)
+
+BUILDING A DATAPATH:
+	- Datapath: 
+		- Elements that process data and addresses in CPU
+			- Registers, ALU, mux's, memories
+	- Build an ARM datapath incrementally
+		- Refining overview design
+
+COMPOSING THE ELEMENTS
+	- First cut data path does an instruction in one clock cycle
+		- Each datapath element can only do one function at a time
+		- Need separate instruction and data memories
+	- Use multiplesers where alternate data sources are used for diff instructions 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
